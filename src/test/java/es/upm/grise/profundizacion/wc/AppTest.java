@@ -52,7 +52,84 @@ public class AppTest {
         assertEquals("Usage: wc [-clw file]\n".trim(), output.toString().trim());
     }
 
-    
+  
+
+
+    @Test
+    public void testCountCharacters() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-c", testFile.toString()});
+
+        assertTrue(output.toString().contains(testFile.toString()));
+    }
+
+
+
+    @Test
+    public void testCountCharactersLinesAndWords() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-clw", testFile.toString()});
+
+        assertTrue(output.toString().contains(testFile.toString()));
+    }
+
+
+    @Test
+    public void testWrongNumberOfArguments() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-c"});
+
+        assertEquals("Wrong arguments!", output.toString().trim());
+    }
+
+    @Test
+    public void testFileNotFound() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-c", "no_existe.txt"});
+
+        assertTrue(output.toString().contains("Cannot find file"));
+    }
+
+    @Test
+    public void testCommandsWithoutDash() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"c", testFile.toString()});
+
+        assertTrue(output.toString().contains("do not start with -"));
+    }
+
+    @Test
+    public void testUnrecognizedCommand() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-x", testFile.toString()});
+
+        assertTrue(output.toString().contains("Unrecognized command"));
+    }
+
+    @Test
+    public void testMainFullExecutionCLW() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        App.main(new String[]{"-clw", testFile.toString()});
+
+        String result = output.toString();
+        assertTrue(result.contains(testFile.toString()));
+    }
+
+
 
 
 }

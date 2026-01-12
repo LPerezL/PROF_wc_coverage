@@ -23,6 +23,41 @@ public class CounterTest {
         assertEquals(3, counter.getNumberLines());
         assertEquals(10, counter.getNumberWords());
     }
+
+
+
+  
+    
+
+    @Test
+    public void testEmptyContent() throws IOException {
+        BufferedReader reader = new BufferedReader(new StringReader(""));
+        Counter counter = new Counter(reader);
+
+        assertEquals(0, counter.getNumberCharacters());
+        assertEquals(0, counter.getNumberLines());
+        assertEquals(0, counter.getNumberWords());
+    }
+
+    @Test
+    public void testOnlySeparators() throws IOException {
+        BufferedReader reader = new BufferedReader(new StringReader(" \t\n"));
+        Counter counter = new Counter(reader);
+
+        assertEquals(3, counter.getNumberCharacters());
+        assertEquals(1, counter.getNumberLines());
+        assertEquals(3, counter.getNumberWords());
+    }
+
+    @Test
+    public void testNoSeparators() throws IOException {
+        BufferedReader reader = new BufferedReader(new StringReader("abcdef"));
+        Counter counter = new Counter(reader);
+
+        assertEquals(6, counter.getNumberCharacters());
+        assertEquals(0, counter.getNumberLines());
+        assertEquals(0, counter.getNumberWords());
+    }
    
 
 }
